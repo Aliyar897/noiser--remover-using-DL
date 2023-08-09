@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Background noise remover</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 1em 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2em;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 2em;
+        }
+        h1 {
+            margin-top: 0;
+        }
+        form {
+            text-align: center;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label.upload-label {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.5em 1em;
+            cursor: pointer;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 3px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Audio Background Noise Remover</h1>
+    </header>
+    <div class="container">
+        <form id="upload-form"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="upload-label" for="audio_file">Choose Music File</label>
+            <input type="file" id="audio_file" name="audio_file" accept=".wav">
+            <button type="submit" id="upload-button">Remove Noise</button>
+        </form>
+
+        
+        
+        <!-- this is the prediction{{res}} -->
+
+
+    </div>
+    <h2>The Input File</h2>
+{% if filename %}
+<audio controls>
+    <source src="{% static 'test/' %}{% if filename %}{{ filename }}{% endif %}" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+    <h2>The Output File</h2>
+    <audio controls>
+        <source src="{% static 'save_predictions/' %}{{ filename }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+{% endif %}
+
+
+
+    <script>
+        const uploadForm = document.getElementById('upload-form');
+        const uploadButton = document.getElementById('upload-button');
+    
+        uploadButton.addEventListener('click', function() {
+            // Update the URL in the address bar
+            history.pushState({}, 'This is classifier', '/upload');  // Replace with the actual new URL
+        });
+    </script>
+</body>
+</html>
